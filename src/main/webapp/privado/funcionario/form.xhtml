@@ -1,0 +1,95 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<ui:define name="content">
+	<div class="aw-page-title">
+					Edição de Funcionários
+	</div>
+		<h:form>
+					<h:form enctype="multipart/form-data">
+			<h:messages  id="messages"/>
+			<h:panelGrid columns="2">
+				
+				<f:facet name="footer">
+					<div align="center">
+					
+						<h:commandButton action="#{controleFuncionario.cancelar()}" value="Cancelar" immediate="true" />
+						<h:commandButton action="#{controleFuncionario.gravar()}" value="Gravar"/>
+
+					</div>
+				</f:facet>
+				<h:outputLabel value="ID" />
+				<h:inputText value="#{controleFuncionario.funcionario.id}" readonly="true" />
+				
+				<h:outputLabel value="Nome" />
+				<h:inputText value="#{controleFuncionario.funcionario.nome}" maxlength="40" size="40" />
+				
+				<h:outputLabel value="CPF" />
+				<h:inputText value="#{controleFuncionario.funcionario.cpf}" maxlength="14" size="14" onkeydown="Mascara(this,Cpf);" onkeyup="Mascara(this,Cpf);" onkeypress="Mascara(this,Cpf);" />
+			
+				<h:outputLabel value="E-mail" />
+				<h:inputText value="${controleFuncionario.funcionario.email}" size="40" maxlength="40" />
+				
+				<h:outputLabel value="Salário" />
+				<h:inputText value="${controleFuncionario.funcionario.salario}" size="20" maxlength="20" onkeydown="Mascara(this,Valor);" onkeyup="Mascara(this,Valor);" onkeypress="Mascara(this,Valor);">
+				
+
+				</h:inputText>
+				
+				<h:outputLabel value="Nascimento" />
+				<h:inputText value="${controleFuncionario.funcionario.nascimento}" size="12" onkeydown="Mascara(this,Data);" onkeyup="Mascara(this,Data);" onkeypress="Mascara(this,Data);">
+					<f:converter converterId="converterCalendario"/>
+				</h:inputText>
+				
+				<h:outputLabel value="Ativo" />
+				<h:selectBooleanCheckbox value="#{controleFuncionario.funcionario.ativo}" />
+				
+				<h:outputLabel value="Nome de Usuário" />
+				<h:inputText value="${controleFuncionario.funcionario.nomeUsuario}" size="20" maxlength="20"/>
+				
+				<h:outputLabel value="Senha" />
+				<h:inputSecret value="#{controleFuncionario.funcionario.senha}" size="10" maxlength="10" />
+				
+				<h:outputLabel value="Grupo" />				
+				<h:selectOneMenu value="#{controleFuncionario.funcionario.grupo}" converter="#{controleFuncionario.converterGrupo}">
+				
+					<f:selectItem itemLabel="Selecione um Grupo" noSelectionOption="true"/>
+					<f:selectItems value="#{controleFuncionario.daoGrupo.listarTtodos()}"/>
+				</h:selectOneMenu>
+				
+			
+				<h:outputLabel value="Setor" />				
+				<h:selectOneMenu value="#{controleFuncionario.funcionario.setor}" converter="#{controleFuncionario.converterSetor}">
+				
+					<f:selectItem itemLabel="Selecione um Setor" noSelectionOption="true"/>
+					<f:selectItems value="#{controleFuncionario.daoSetor.listarTtodos()}"/>
+				</h:selectOneMenu>
+				
+				<h:outputLabel value="Foto" />
+				<p:fileUpload id="uploadImagem" mode="advanced"	update="messages,imagem" auto="true" label="Selecionar"	
+				fileUploadListener="#{controleFuncionario.enviarFoto}"
+				allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+				
+					
+				<h:outputLabel value="" />				
+				<p:graphicImage value="#{controleFuncionario.funcionario.imagem}" 
+				id="imagem" style="width:60px;height:60px" cache="false" />
+				
+			</h:panelGrid>
+		
+		</h:form>
+		
+	
+		</h:form>
+	
+	</ui:define> 
+
+</ui:composition>
+
+
+

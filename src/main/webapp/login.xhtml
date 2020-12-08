@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title></title>
+	<h:outputStylesheet library="css" name="geral.css" />
+</h:head>
+<h:body>
+	<h:form id="login">
+	
+	<div align="center">
+		<p:panel id="basic" header="Dados do Usuário" style="width:300px">
+
+			<h:panelGrid>
+				<f:facet name="footer">
+					<div align="center">
+						<h:commandButton action="#{controleLogin.efetuarLogin()}"
+							value="Login" />
+					</div>
+				</f:facet>
+
+				<h:outputLabel value="Usuário " />
+				<h:inputText value="#{controleLogin.usuario}" size="20" />
+
+				<h:outputLabel value="Senha " />
+				<h:inputSecret value="#{controleLogin.senha}" size="20" />
+
+			</h:panelGrid>
+		</p:panel>
+	</div>
+
+	</h:form>
+</h:body>
+</html>

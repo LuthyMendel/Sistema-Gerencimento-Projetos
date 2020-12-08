@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<ui:define name="content">
+		
+		<h:form id="frm">
+			<h:messages />
+			<div class="aw-page-title">
+				Setor
+			</div>
+			<p:toolbar>
+				<p:toolbarGroup align="right">
+					<p:commandButton action="#{controllerSetor.novo()}" value="Novo Registro" />
+					<p:commandButton action="/index?faces-redirect=true/" value="Inicio" /><br/>
+				</p:toolbarGroup>
+			</p:toolbar>
+			
+			
+			
+			
+			<h:panelGrid columns="5">
+			
+				<h:selectOneMenu value="#{controllerSetor.daoSetor.ordemAtual}" converter="#{controllerSetor.daoSetor.converterOrdem}">
+					<f:selectItems value="#{controllerSetor.daoSetor.listaOrdem}"/>
+					<f:ajax execute="@form" render="@form"/>
+				</h:selectOneMenu>
+				
+				<h:outputLabel value="Filtro" />
+				<h:inputText value="#{controllerSetor.daoSetor.filtro}">
+					<f:ajax execute="@form" render="@form" event="keyup"/>
+				</h:inputText>
+				
+				<h:outputLabel value="Máximo" />
+				<h:inputText value="#{controllerSetor.daoSetor.maximoObjetos}">
+					<f:ajax execute="@form" render="@form" event="keyup"/>
+				</h:inputText>
+			</h:panelGrid>
+			
+			
+			
+			<p:dataTable value="#{controllerSetor.daoSetor.listar()}" var="obj" frame="box" rules="all" cellpadding="3">
+				
+				<f:facet name="footer">
+					<div align="center">
+						<h:outputLabel value="#{controllerSetor.daoSetor.mensagemNavegacao}"/><br/>
+						
+						<h:commandButton action="#{controllerSetor.daoSetor.primeiro()}" value="Primeiro" >
+							<f:ajax execute="@form" render="@form" event="keyup"/>							
+						</h:commandButton>
+						
+						<h:commandButton action="#{controllerSetor.daoSetor.anterior()}" value="Anterior" >
+							<f:ajax execute="@form" render="@form" event="keyup"/>							
+						</h:commandButton>
+						
+						<h:commandButton action="#{controllerSetor.daoSetor.proximo()}" value="Próximo" >
+							<f:ajax execute="@form" render="@form" event="keyup"/>							
+						</h:commandButton>
+						
+						<h:commandButton action="#{controllerSetor.daoSetor.ultimo()}" value="Último" >
+							<f:ajax execute="@form" render="@form" event="keyup"/>							
+						</h:commandButton>
+					</div>
+				</f:facet>
+				
+				<p:column headerText="ID" style="width:5%">
+					<h:outputText value="#{obj.id}" />						
+				</p:column>
+				
+				<p:column headerText="Nome">
+					<h:outputText value="#{obj.nome}" />						
+				</p:column>
+				
+				
+				<p:column headerText="Alterar" style="width:50px">
+					<p:commandLink action="#{controllerSetor.alterar(obj)}" value="Alterar" />					
+				</p:column>
+				
+				
+			
+				<p:column headerText="Excluir" style="width:50px">					
+					<p:commandLink action="#{controllerSetor.excluir(obj)}" value="Excluir" onclick="if (!confirm ('confirme a Exclusão do Setor ?')) return flase" />
+				</p:column>
+				
+			</p:dataTable>
+		
+		</h:form>
+	
+	</ui:define> 
+
+</ui:composition>
+

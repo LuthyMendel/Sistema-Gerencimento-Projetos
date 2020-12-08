@@ -1,0 +1,120 @@
+body{
+	
+	margin:0px;
+	font-size: 13px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sn;
+		
+	
+}
+
+.centro{
+	
+	width: 100vw;
+	height: 100vh;
+	background-color: #6C7A89;
+	display: flex;
+	justify-content:center;	
+	
+	
+	
+	
+}
+
+.container{
+	
+	
+	position:inherit;
+	width: 950px;
+	height:100%;	
+	background: #fff;
+	
+	
+}
+.topo{
+	
+	
+	width: 100%;
+	margin:0;
+	height: 80px;
+	background-color: purple;
+	
+				
+	}
+			
+/*Espaço do Menu*/
+.menu{
+		position:relative;
+		
+		width:210px;
+		background-color:#f6f6f6;
+		border-color: #f6f6f6;
+		border-right: 1px solid #eaeaea;				
+	}
+	
+	/*Menu configuração*/
+	.aw-menu{
+	
+		font-size: 1.5em;
+	}
+	
+	.aw-menu > ul{
+		margin:0;
+		padding: 0;
+		list-style-type: none;
+	
+	}
+	.aw-menu > ul a{
+		display: block;
+		padding: 10px 15px;
+		
+		text-decoration: none;
+		font-weight: 500;
+		color: #373737;
+	}
+	
+	.aw-menu > ul i{
+		margin-left: 6px;
+		}
+		
+	.aw-menu > ul a:hover, .aw-menu >ul a:focus{
+		border-left: 3px solid #1e94d2;
+		background-color: #f3f3f3;
+		color: #1e94d2;
+	}
+		
+	.aw-menu >ul .is-selected{
+		border-left: 3px solid #1e94d2;
+		background-color:green;
+	}
+	
+	.aw-menu > ul .is-selected a{
+		margin-left: .3px;
+		color: #1e94d2;
+	}
+	
+.conteudo{
+	
+		
+		margin-top:-260px;
+		padding:0 15px;
+		width: 708px;
+		margin-left: 210px;	
+		
+	}
+			
+.rodape{
+		position:relative;
+		width: 20%;
+		height: 100px;
+		background-color: green;
+
+		}
+		
+.aw-page-title{
+	margin: 0;
+	padding: 20px 0;
+	font-size: 1.5em;
+	color: #373737;
+	
+}
+		

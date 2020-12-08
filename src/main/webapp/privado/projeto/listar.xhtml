@@ -1,0 +1,78 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml">
+
+	<ui:define name="content">
+		<h:form>			
+		<div class="aw-page-title">
+				Projetos
+		</div>
+		<p:toolbar>
+			<p:toolbarGroup align="right">
+				<p:commandButton action="#{controllerSetor.novo()}" value="Novo Registro" />
+				<p:commandButton action="/index?faces-redirect=true/" value="Inicio" /><br/>
+			</p:toolbarGroup>
+		</p:toolbar>
+
+		</h:form>
+		<h:form>
+
+		<h:messages />
+		
+		<p:dataTable value="#{controleProjeto.dao.listarTtodos()}" var="obj" frame="box" rules="all" cellpadding="3">
+			
+			<p:column headerText="ID" style="width:2%">
+					<h:outputText value="#{obj.id}" />
+			</p:column>
+			
+			<p:column headerText="Nome">
+					<h:outputText value="#{obj.nome}" />
+			</p:column>
+			
+						
+			<p:column headerText="Data Início">
+					<h:outputText value="#{obj.inicio}">
+						<f:converter converterId="converterCalendario"/>
+					</h:outputText>
+			</p:column>
+			
+			<p:column headerText="Data Fim">
+					<h:outputText value="#{obj.fim}">
+						<f:converter converterId="converterCalendario"/>
+					</h:outputText>
+			</p:column>			
+			
+			<p:column headerText="Setor">
+					<h:outputText value="#{obj.setor.nome}" />
+			</p:column>
+				
+			<p:column headerText="Ativo" style="width:50px">
+					<h:outputText value="#{obj.ativo == true ? 'Sim': 'Não'}" />
+			</p:column>		
+			
+			
+			
+			<p:column headerText="Alterar" style="width:50px">
+					<h:commandLink action="#{controleProjeto.alterar(obj)}" 
+						value="Alterar" />
+			</p:column>
+
+			<p:column headerText="Excluir" style="width:50px">
+					<h:commandLink value="Excluir"
+						action="#{controleProjeto.excluir(obj)}"
+						onclick="if (!confirm('Confirma a exclusão do funcionário?')) return false" />
+			</p:column>
+			
+
+		</p:dataTable>
+	
+	</h:form>
+	
+	</ui:define> 
+
+</ui:composition>
+

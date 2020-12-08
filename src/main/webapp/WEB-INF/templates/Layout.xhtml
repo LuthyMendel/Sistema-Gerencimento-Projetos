@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+	<h:head>		
+		<meta charset="UTF-8"/>		
+		<h:outputStylesheet library="primafaces" name="grid/grid.css"/>
+		<h:outputScript library="js" name="scripts.js"/>
+	
+		<title> Sistema Gerenciador de Projetos</title>
+		<h:outputStylesheet library="css" name="geral.css" />
+	</h:head> 
+	<h:body>
+	
+	
+			
+			<div class="centro">
+			
+			
+			
+			<div class="container"> 
+			<div class="topo"></div>
+			<h:panelGroup rendered="#{controleLogin.usuarioLogado != null}">
+			<h:form>				
+				<div class="menu">					
+					<nav class="aw-menu">		
+						<ul>
+							<li> <h:link><i class="fa fa-fw fa-home"></i> Home</h:link> </li>
+							<li><h:commandLink action="#{controleFuncionario.listar()}"><i class="fa fa-fw fa-users"></i> Funcionário</h:commandLink> </li>
+								
+							<li> <h:commandLink action="#{controllerSetor.listar()}" ><i class="fa fa-fw fa-th-large"></i> Setor</h:commandLink> </li>			
+							<li> <h:commandLink action="#{controleProjeto.listar()}"><i class="fa fa-fw fa-briefcase"></i> Projeto</h:commandLink> </li>
+								
+							<li> <h:commandLink action="#{controleGrupo.listar()}"><i class="fa fa-fw fa-user"></i> Grupo</h:commandLink></li>	
+							<li> <h:commandLink action="#{controleLogin.efetuarLogout()}"><i class="fa fa-fw fa-sign-out"></i> Sair</h:commandLink></li>								
+						</ul>
+					</nav>		
+				</div>
+			</h:form>
+			<section class="conteudo">
+				<ui:insert name="content"/>
+			</section>	
+			</h:panelGroup>
+			<h:form>
+				<h:panelGroup rendered="#{controleLogin.usuarioLogado == null}">
+					<h1>Usuário não logado</h1>		
+					<h:commandLink action="#{controleLogin.paginaLogin()}" value="Login" />
+				</h:panelGroup>			
+			</h:form>															
+			</div> 		
+	
+			</div>		 
+	</h:body> 
+</html>

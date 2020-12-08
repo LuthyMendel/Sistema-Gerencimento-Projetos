@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+	<h:head>
+		<title></title>
+	<h:outputScript library="js" name="scripts.js"/>
+		
+	</h:head> 
+	<h:body> 
+	
+	<h:form>
+		<h:messages />
+		
+		<h:panelGroup rendered="#{controleProjeto.addFuncioinario == false}">
+			<h:panelGrid columns="2">
+				<f:facet name="header">Edição de Projetos</f:facet>
+				<f:facet name="footer">			
+					<div align="center">
+						<h:commandButton action="#{controleProjeto.cancelar()}" value="Cancelar" immediate="true" />
+						<h:commandButton action="#{controleProjeto.gravar()}" value="Gavar" />
+					</div>
+				</f:facet>
+				<h:outputLabel value="ID" />
+				<h:inputText value="#{controleProjeto.objeto.id}" readonly="true"/>
+			
+				<h:outputLabel value="Nome" />
+				<h:inputText value="#{controleProjeto.objeto.nome}" size="40" maxlength="40"/>
+			
+				<h:outputLabel value="Descrição" />
+				<h:inputTextarea value="#{controleProjeto.objeto.descriacao}" rows="5" cols="60"/>
+			
+				<h:outputLabel value="Início" />
+				<h:inputText value="#{controleProjeto.objeto.inicio}" size="12" 
+				onkeydown="Mascara(this,Data);" onkeyup="Mascara(this,Data);" onkeypress="Mascara(this,Data);">
+				<f:converter converterId="converterCalendario"/>			
+				</h:inputText>
+			
+				<h:outputLabel value="Fim" />
+				<h:inputText value="#{controleProjeto.objeto.fim}" size="12" onkeydown="Mascara(this,Data);" onkeypress="Mascara(this,Data);" onkeyup="Mascara(this,Data);">
+				<f:converter converterId="converterCalendario"/>			
+				</h:inputText>
+			
+				<h:outputLabel value="Ativo" />
+				<h:selectBooleanCheckbox value="#{controleProjeto.objeto.ativo}" />
+			
+				<h:outputLabel value="Setor" />
+				<h:selectOneMenu value="#{controleProjeto.objeto.setor}" converter="#{controleProjeto.converterSetor}">
+					<f:selectItem itemLabel="Selecione um Setor" noSelectionOption="true"/>
+					<f:selectItems value="#{controleProjeto.daoSetor.listarTtodos()}"/>
+			
+				</h:selectOneMenu>		
+			</h:panelGrid>
+			
+			<h:dataTable value="#{controleProjeto.objeto.funcionarios}" var="obj" frame="box" cellpadding="3" id="listarFuncionarios">			
+				<f:facet name="header"> Lista de Funcioários
+				<h:commandButton value="Adicionar Funcionário" action="#{controleProjeto.adicionarFuncionario()}">
+					<f:ajax execute="@this" render="@form"/>			
+				</h:commandButton>
+				</f:facet>
+			
+				<h:column>
+					<f:facet name="header"> Funcionário</f:facet>
+					<h:outputText value="#{obj.funcionario.nome}" />
+				</h:column>
+			
+				<h:column>
+				<f:facet name="header"> Carga Horária</f:facet>
+				<h:outputText value="#{obj.cargaHoraria}"/>
+				</h:column>
+			
+				<h:column> 
+					<f:facet name="header"> Gestor</f:facet>
+					<h:outputText value="#{obj.gestor == true ? 'Sim': 'Não'}" />
+				</h:column>
+			
+				<h:column>
+					<f:facet name="header"> Inicio Participação</f:facet>
+					<h:outputText value="#{obj.inicioParticipacao}">
+						<f:converter converterId="converterCalendario"/>
+					</h:outputText>
+				</h:column>
+				
+				<h:column>
+					<f:facet name="header"> Fim Participação</f:facet>
+					<h:outputText value="#{obj.fimParticipacao}" >
+					<f:converter converterId="converterCalendario"/>	
+					</h:outputText>
+				</h:column>
+			
+				<h:column>
+					<f:facet name="header"> Excluir</f:facet>
+					<h:commandLink action="#{controleProjeto.removerFuncinonario(obj)}" value="Excluir" 
+						onclick="if(!confirm('Confirma a Execução')) return false">
+						<f:ajax execute="@this" render="@form"/>				
+					</h:commandLink>
+				</h:column>		
+			</h:dataTable>
+			</h:panelGroup>
+		
+		
+			<h:panelGroup rendered="#{controleProjeto.addFuncioinario == true}">
+				<h:panelGrid columns="2">
+					<f:facet name="header"> Funcionario Projeto</f:facet>
+					<f:facet name="footer">
+						<div align="center">
+							<h:commandButton value="Cancelar" action="#{controleProjeto.cancelarFuncionario()}"  immediate="true" >
+								<f:ajax execute="@this" render="@form"/>
+							</h:commandButton>
+						
+							<h:commandButton value="Salvar" action="#{controleProjeto.salvarFuncionario()}" >
+								<f:ajax execute="@form" render="@form"/>
+							</h:commandButton>
+						</div>
+				
+					</f:facet>
+				
+					<h:outputLabel value="Funcionario" />
+				
+					<h:selectOneMenu value="#{controleProjeto.funcionario}" converter="#{controleProjeto.converterFuncionario}" required="true" 
+						requiredMessage="Informe o Funcionario">
+					<f:selectItem itemLabel="Selecione um Funcionario"	noSelectionOption="true"/>
+				
+					<f:selectItems value="#{controleProjeto.daoFuncionario.listarTtodos()}"/>
+				
+					</h:selectOneMenu>
+					
+					<h:outputLabel value="Carga Horária"/>
+					<h:inputText value="#{controleProjeto.cargaHoraria}" size="3" required="true" requiredMessage="Informe a carga Horaria" 
+						onkeydown="Mascara(this, Integer);" onkeypress="Mascara(this, Integer);" onkeyup="Mascara(this, Integer);"/>
+				
+					<h:outputLabel value="Gestor" />
+					<h:selectBooleanCheckbox value="#{controleProjeto.gestor}" />
+				
+					<h:outputLabel value="Início Participação" />
+					<h:inputText value="#{controleProjeto.inicioParticipacao}" size="12" 
+						onkeydown="Mascara(this,Data);" onkeyup="Mascara(this,Data);" onkeypress="Mascara(this,Data);" >
+						<f:converter converterId="converterCalendario"/>
+			
+					</h:inputText>
+			
+					<h:outputLabel value="Fim Partifipação" />
+					<h:inputText value="#{controleProjeto.fimParticipacao}" size="12" onkeydown="Mascara(this,Data);" onkeypress="Mascara(this,Data);" onkeyup="Mascara(this,Data);">
+						<f:converter converterId="converterCalendario"/>
+			
+					</h:inputText>
+				</h:panelGrid>
+		
+		
+			</h:panelGroup>
+	
+		</h:form>
+	
+	</h:body> 
+</html>
